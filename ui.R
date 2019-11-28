@@ -1,19 +1,25 @@
 fluidPage(
   
-  titlePanel("TunnelGoalFitts Test"),
   
-  sidebarLayout(
+  headerPanel("TunnelGoalFitts Test"),
+  
+
     sidebarPanel(
       selectInput("test",
                   "Test Type", 
-                  c("Adel", "Yohann", "Quentin"), selected = "Yohann")),
-    
-    radioButtons("button",
-                 "Compare Human Performance to..",
-                 c("Distance Between targets", "Size of Targets")),
-    
-    
-  ),
+                  choices = c("Quentin", "Yohann", "Adel"), selected = "Adel"),
+      
+      
+      radioButtons("button",
+                   "Compare Human Performance to..",
+                   c("Distance Between targets", "Size of Targets"))
+    ),
   
-  mainPanel()
+    mainPanel(
+      h1("kdkdkkd")
+    )
+  
+  
+  
 )
+

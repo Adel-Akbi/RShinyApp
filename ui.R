@@ -16,7 +16,6 @@ fluidPage(
     ),
   
     mainPanel(
-      h1("kdkdkkd")
     )
   
   

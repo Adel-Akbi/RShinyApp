@@ -16,6 +16,7 @@ fluidPage(
     ),
   
     mainPanel(
+      plotOutput("plot1")
     )
   
   

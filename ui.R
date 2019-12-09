@@ -1,3 +1,4 @@
+library(plotly)
 fluidPage(
   
   
@@ -7,7 +8,7 @@ fluidPage(
     sidebarPanel(
       selectInput("test",
                   "Test Type", 
-                  choices = c("Quentin", "Yohann", "Adel"), selected = "Adel"),
+                  choices = c("Fitts Test", "Tunnel Test", "Goal Test"), selected = "Fitts Test"),
       
       
       radioButtons("button",
@@ -16,9 +17,9 @@ fluidPage(
     ),
   
     mainPanel(
-      plotOutput("plot1")
+      plotlyOutput("plot1")
     )
-  
+   
   
   
 )

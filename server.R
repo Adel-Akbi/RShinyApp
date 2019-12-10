@@ -1,26 +1,45 @@
 library(plotly)
 function(input, output, session) {
-
-  # # Combine the selected variables into a new data frame
-  # selectedData <- reactive({
-  #   iris[, c(input$test, radioButtons$button)]
-  # })
-  # 
-  # clusters <- reactive({
-  #   kmeans(selectedData(), radioButtons$button)
-  # })
-  # 
-  # output$plot1 <- renderPlot({
-  #   palette(c("#E41A1C", "#377EB8"))
-  # 
-  #   par(mar = c(5.1, 4.1, 0, 1))
-  #   plot(selectedData(),
-  #   col = clusters()$button,
-  #   pch = 20, cex = 3)
-  #   points(clusters()$centres, pch = 4, cex = 4, lwd = 4)
-  # })
-  pal <- c("red", "green")
   
-  output$plot1 <- renderPlotly(plot_ly(economics, x = ~date, y = ~unemploy / pop, colors = pal))
-
+  
+  x0 <- rnorm(400, mean=2, sd=0.4)
+  y0 <- rnorm(400, mean=2, sd=0.4)
+  x1 <- rnorm(400, mean=3, sd=0.6)
+  y1 <- rnorm(400, mean=6, sd=0.4)
+  
+  # shapes components
+  cluster0 = list(
+    type = 'circle',
+    xref ='x', yref='y',
+    x0=min(x0), y0=min(y0),
+    x1=max(x0), y1=max(y0),
+    opacity=0.25,
+    line = list(color="#00ff00 "),
+    fillcolor="#00ff00 ")
+  
+  cluster1 = list(
+    type = 'circle',
+    xref ='x', yref='y',
+    x0=min(x1), y0=min(y1),
+    x1=max(x1), y1=max(y1),
+    opacity=0.25,
+    line = list(color="#ff0000"),
+    fillcolor="#ff0000")
+  
+  
+ 
+  
+  
+  output$plot1 <- renderPlotly(plot_ly(type = 'scatter', mode='markers') %>%
+                                 add_trace(x=x0, y=y0, mode='markers', marker=list(color='#00ff00')) %>%
+                                 add_trace(x=x1, y=y1, mode='markers', marker=list(color='#ff0000')) %>%
+                                 layout(title = "Visualization Of People's Performance", showlegend = FALSE,
+                                        xaxis = list(title = 'Human Performance (s)', margin( l = 100, unit = 'pt')), 
+                                        yaxis = list(title = 'Distance (px)'))
+                                        
+                               
+  )
+  output$range <- renderPrint({ input$slider2 })
+  
+  
 }

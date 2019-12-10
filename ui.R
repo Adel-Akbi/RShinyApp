@@ -21,6 +21,6 @@ fluidPage(
    
      sliderInput("slider2", width = "100%", label = h3(""),
                 min = 0,
-                max = 100, value = c(40, 60))
+                max = 9, value = c(0, 2))
   ),
 )

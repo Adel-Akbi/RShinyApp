@@ -14,8 +14,8 @@ function(input, output, session) {
     x0=min(x0), y0=min(y0),
     x1=max(x0), y1=max(y0),
     opacity=0.25,
-    line = list(color="#00ff00 "),
-    fillcolor="#00ff00 ")
+    line = list(color="#228B22 "),
+    fillcolor="#228B22 ")
   
   cluster1 = list(
     type = 'circle',
@@ -31,7 +31,7 @@ function(input, output, session) {
   
   
   output$plot1 <- renderPlotly(plot_ly(type = 'scatter', mode='markers') %>%
-                                 add_trace(x=x0, y=y0, mode='markers', marker=list(color='#00ff00')) %>%
+                                 add_trace(x=x0, y=y0, mode='markers', marker=list(color='#228B22')) %>%
                                  add_trace(x=x1, y=y1, mode='markers', marker=list(color='#ff0000')) %>%
                                  layout(title = "Visualization Of People's Performance", showlegend = FALSE,
                                         xaxis = list(title = 'Human Performance (s)', margin( l = 100, unit = 'pt')), 

@@ -1,3 +1,4 @@
+library(plotly)
 fluidPage(
   
   
@@ -18,8 +19,8 @@ fluidPage(
   
   mainPanel(
     plotlyOutput("plot1"),
-   
-     sliderInput("slider2", width = "100%", label = h3(""),
+    
+    sliderInput("slider2", width = "100%", label = h3(""),
                 min = 0,
                 max = 9, value = c(0, 2))
   ),

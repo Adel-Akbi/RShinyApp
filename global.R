@@ -3,7 +3,6 @@ library(RMySQL)
 my_data <- read.csv("credentials.csv", header=TRUE,sep=",", colClasses=c("character","character","character","character"))
 print(my_data[1, "host"])
 
-# lapply( dbListConnections( dbDriver( drv = "MySQL")), dbDisconnect)
 
 mydb = dbConnect(MySQL(),
                  user=my_data[1, "username"],

@@ -8,7 +8,7 @@ fluidPage(
   sidebarPanel(
     selectInput("test",
                 "Test Type",
-                choices = c("Fitts Test", "Tunnel Test", "Goal Test"), selected = "Fitts Test"),
+                choices = GenerateSelectChoices(default = "All test", text = "", fieldName = "GameType")),
     
     
     radioButtons("button",

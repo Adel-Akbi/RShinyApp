@@ -27,19 +27,31 @@ function(input, output, session) {
     fillcolor="#ff0000")
   
   
- 
   
   
-  output$plot1 <- renderPlotly(plot_ly(type = 'scatter', mode='markers') %>%
-                                 add_trace(x=x0, y=y0, mode='markers', marker=list(color='#228B22')) %>%
-                                 add_trace(x=x1, y=y1, mode='markers', marker=list(color='#ff0000')) %>%
-                                 layout(title = "Visualization Of People's Performance", showlegend = FALSE,
-                                        xaxis = list(title = 'Human Performance (s)', margin( l = 100, unit = 'pt')), 
-                                        yaxis = list(title = 'Distance (px)'))
-                                        
-                               
-  )
+  
+  # output$plot1 <- renderPlotly(plot_ly(type = 'scatter', mode='markers') %>%
+  #                                add_trace(x=x0, y=y0, mode='markers', marker=list(color='#228B22')) %>%
+  #                                add_trace(x=x1, y=y1, mode='markers', marker=list(color='#ff0000')) %>%
+  #                                layout(title = "Visualization Of People's Performance", showlegend = FALSE,
+  #                                       xaxis = list(title = 'Human Performance (s)', margin( l = 100, unit = 'pt')), 
+  #                                       yaxis = list(title = 'Distance (px)'))
+  #                                       
+  #                              
+  # )
   output$range <- renderPrint({ input$slider2 })
+  
+  observeEvent({input$test
+               input$slider2
+               1}, {
+    if (input$test == -1)
+    {
+      output$plot1 <- renderPlotly(plot_ly(type = 'scatter', mode='markers', data = FetchDatas(conditionLists = list(list(paste("SessionTime >= ", input$slider2[[1]], sep = "")), list(paste("SessionTime <= ", input$slider2[[2]], sep = ""))), option = "SessionTime, HitY"), x = ~SessionTime, y = ~HitY))
+      return()
+    }
+    print(input$slider2[[1]])
+    output$plot1 <- renderPlotly(plot_ly(type = 'scatter', mode='markers',data = FetchDatas(conditionLists = list(list(paste("GameType = '", input$test, "'", sep = "")), list(paste("SessionTime >= ", input$slider2[[1]], sep = "")), list(paste("SessionTime <= ", input$slider2[[2]], sep = ""))), option = "SessionTime, HitY"), x = ~SessionTime, y = ~HitY))
+  })
   
   
 }

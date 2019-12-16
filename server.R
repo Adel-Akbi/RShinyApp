@@ -26,7 +26,7 @@ function(input, output, session) {
     line = list(color="#ff0000"),
     fillcolor="#ff0000")
   
-  
+
   
   
   
@@ -39,6 +39,7 @@ function(input, output, session) {
   #                                       
   #                              
   # )
+  
   output$range <- renderPrint({ input$slider2 })
   
   observeEvent({input$test
@@ -46,11 +47,11 @@ function(input, output, session) {
                1}, {
     if (input$test == -1)
     {
-      output$plot1 <- renderPlotly(plot_ly(type = 'scatter', mode='markers', data = FetchDatas(conditionLists = list(list(paste("SessionTime >= ", input$slider2[[1]], sep = "")), list(paste("SessionTime <= ", input$slider2[[2]], sep = ""))), option = "SessionTime, HitY"), x = ~SessionTime, y = ~HitY))
+      output$plot1 <- renderPlotly(plot_ly(type = 'scatter', mode='markers', data = FetchDatas(conditionLists = list(list(paste("DeltaTime >= ", input$slider2[[1]], sep = "")), list(paste("DeltaTime <= ", input$slider2[[2]], sep = ""))), option = "DeltaTime, TargetsDistance"), x = ~DeltaTime, y = ~TargetsDistance))
       return()
     }
     print(input$slider2[[1]])
-    output$plot1 <- renderPlotly(plot_ly(type = 'scatter', mode='markers',data = FetchDatas(conditionLists = list(list(paste("GameType = '", input$test, "'", sep = "")), list(paste("SessionTime >= ", input$slider2[[1]], sep = "")), list(paste("SessionTime <= ", input$slider2[[2]], sep = ""))), option = "SessionTime, HitY"), x = ~SessionTime, y = ~HitY))
+    output$plot1 <- renderPlotly(plot_ly(type = 'scatter', mode='markers',data = FetchDatas(conditionLists = list(list(paste("GameType = '", input$test, "'", sep = "")), list(paste("DeltaTime >= ", input$slider2[[1]], sep = "")), list(paste("DeltaTime <= ", input$slider2[[2]], sep = ""))), option = "DeltaTime, TargetsDistance"), x = ~DeltaTime, y = ~TargetsDistance))
   })
   
   

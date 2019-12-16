@@ -2,31 +2,31 @@ library(plotly)
 function(input, output, session) {
   
   
-  x0 <- rnorm(400, mean=2, sd=0.4)
-  y0 <- rnorm(400, mean=2, sd=0.4)
-  x1 <- rnorm(400, mean=3, sd=0.6)
-  y1 <- rnorm(400, mean=6, sd=0.4)
+  # x0 <- rnorm(400, mean=2, sd=0.4)
+  # y0 <- rnorm(400, mean=2, sd=0.4)
+  # x1 <- rnorm(400, mean=3, sd=0.6)
+  # y1 <- rnorm(400, mean=6, sd=0.4)
+  # 
+  # # shapes components
+  # cluster0 = list(
+  #   type = 'circle',
+  #   xref ='x', yref='y',
+  #   x0=min(x0), y0=min(y0),
+  #   x1=max(x0), y1=max(y0),
+  #   opacity=0.25,
+  #   line = list(color="#228B22 "),
+  #   fillcolor="#228B22 ")
+  # 
+  # cluster1 = list(
+  #   type = 'circle',
+  #   xref ='x', yref='y',
+  #   x0=min(x1), y0=min(y1),
+  #   x1=max(x1), y1=max(y1),
+  #   opacity=0.25,
+  #   line = list(color="#ff0000"),
+  #   fillcolor="#ff0000")
+  # 
   
-  # shapes components
-  cluster0 = list(
-    type = 'circle',
-    xref ='x', yref='y',
-    x0=min(x0), y0=min(y0),
-    x1=max(x0), y1=max(y0),
-    opacity=0.25,
-    line = list(color="#228B22 "),
-    fillcolor="#228B22 ")
-  
-  cluster1 = list(
-    type = 'circle',
-    xref ='x', yref='y',
-    x0=min(x1), y0=min(y1),
-    x1=max(x1), y1=max(y1),
-    opacity=0.25,
-    line = list(color="#ff0000"),
-    fillcolor="#ff0000")
-  
-
   
   
   
@@ -43,16 +43,26 @@ function(input, output, session) {
   output$range <- renderPrint({ input$slider2 })
   
   observeEvent({input$test
-               input$slider2
-               1}, {
-    if (input$test == -1)
-    {
-      output$plot1 <- renderPlotly(plot_ly(type = 'scatter', mode='markers', data = FetchDatas(conditionLists = list(list(paste("DeltaTime >= ", input$slider2[[1]], sep = "")), list(paste("DeltaTime <= ", input$slider2[[2]], sep = ""))), option = "DeltaTime, TargetsDistance"), x = ~DeltaTime, y = ~TargetsDistance))
-      return()
-    }
-    print(input$slider2[[1]])
-    output$plot1 <- renderPlotly(plot_ly(type = 'scatter', mode='markers',data = FetchDatas(conditionLists = list(list(paste("GameType = '", input$test, "'", sep = "")), list(paste("DeltaTime >= ", input$slider2[[1]], sep = "")), list(paste("DeltaTime <= ", input$slider2[[2]], sep = ""))), option = "DeltaTime, TargetsDistance"), x = ~DeltaTime, y = ~TargetsDistance))
-  })
+    input$slider2
+    1}, {
+      if (input$test == -1)
+      {
+        output$plot1 <- renderPlotly(plot_ly(type = 'scatter',mode='markers', 
+                                             data = FetchDatas(conditionLists = list(list(paste("DeltaTime >= ", input$slider2[[1]], sep = "")),
+                                                                                     list(paste("DeltaTime <= ", input$slider2[[2]], sep = ""))), 
+                                                               option = "DeltaTime, TargetsDistance"), 
+                                             x = ~DeltaTime, y = ~TargetsDistance)%>% layout(xaxis = list(title = "Human Performance (s)"), yaxis = list(title = "Distance (px)"))
+                                     
+        )
+        return()
+      }
+      print(input$slider2[[1]])
+      output$plot1 <- renderPlotly(plot_ly(type = 'scatter', mode='markers',data = FetchDatas(conditionLists = list(list(paste("GameType = '", input$test, "'", sep = "")),
+                                                                                                                    list(paste("DeltaTime >= ", input$slider2[[1]], sep = "")), 
+                                                                                                                    list(paste("DeltaTime <= ", input$slider2[[2]], sep = ""))), 
+                                                                                              option = "DeltaTime, TargetsDistance"), 
+                                           x = ~DeltaTime, y = ~TargetsDistance)%>% layout(xaxis = list(title = "Human Performance (s)"), yaxis = list(title = "Distance (px)")))
+    })
   
   
 }

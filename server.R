@@ -50,8 +50,8 @@ function(input, output, session) {
         output$plot1 <- renderPlotly(plot_ly(type = 'scatter',mode='markers', 
                                              data = FetchDatas(conditionLists = list(list(paste("DeltaTime >= ", input$slider2[[1]], sep = "")),
                                                                                      list(paste("DeltaTime <= ", input$slider2[[2]], sep = ""))), 
-                                                               option = "DeltaTime, TargetsDistance"), 
-                                             x = ~DeltaTime, y = ~TargetsDistance)%>% layout(xaxis = list(title = "Human Performance (s)"), yaxis = list(title = "Distance (px)"))
+                                                               option = "DeltaTime, TargetsDistanceinches"), 
+                                             x = ~DeltaTime, y = ~TargetsDistanceinches)%>% layout(xaxis = list(title = "Human Performance (s)"), yaxis = list(title = "Distance (px)"))
                                      
         )
         return()
@@ -60,8 +60,8 @@ function(input, output, session) {
       output$plot1 <- renderPlotly(plot_ly(type = 'scatter', mode='markers',data = FetchDatas(conditionLists = list(list(paste("GameType = '", input$test, "'", sep = "")),
                                                                                                                     list(paste("DeltaTime >= ", input$slider2[[1]], sep = "")), 
                                                                                                                     list(paste("DeltaTime <= ", input$slider2[[2]], sep = ""))), 
-                                                                                              option = "DeltaTime, TargetsDistance"), 
-                                           x = ~DeltaTime, y = ~TargetsDistance)%>% layout(xaxis = list(title = "Human Performance (s)"), yaxis = list(title = "Distance (px)")))
+                                                                                              option = "DeltaTime, TargetsDistanceinches"), 
+                                           x = ~DeltaTime, y = ~TargetsDistanceinches)%>% layout(xaxis = list(title = "Human Performance (s)"), yaxis = list(title = "Distance (px)")))
     })
   
   

@@ -128,3 +128,16 @@ GenerateSelectChoices <- function(default = "", text = "", fieldName, conditions
   return(tempList)
 }
 
+getData = function(gametype = "Tunnel", param = "TargetsDistanceInches", slidermin = 0, slidermax = 2) {
+  return(
+    FetchDatas(conditionLists = list(list(paste('GameType = "', gametype, '"', sep = '')),
+                                     list(paste("DeltaTime >= ", slidermin, sep = "")), 
+                                     list(paste("DeltaTime <= ", slidermax, sep = ""))),
+               option = paste('DeltaTime, ', param, sep = '')
+    )
+  )
+  
+  
+}
+
+

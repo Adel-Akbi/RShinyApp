@@ -1,68 +1,75 @@
 library(plotly)
 function(input, output, session) {
   
-  
-  # x0 <- rnorm(400, mean=2, sd=0.4)
-  # y0 <- rnorm(400, mean=2, sd=0.4)
-  # x1 <- rnorm(400, mean=3, sd=0.6)
-  # y1 <- rnorm(400, mean=6, sd=0.4)
-  # 
-  # # shapes components
-  # cluster0 = list(
-  #   type = 'circle',
-  #   xref ='x', yref='y',
-  #   x0=min(x0), y0=min(y0),
-  #   x1=max(x0), y1=max(y0),
-  #   opacity=0.25,
-  #   line = list(color="#228B22 "),
-  #   fillcolor="#228B22 ")
-  # 
-  # cluster1 = list(
-  #   type = 'circle',
-  #   xref ='x', yref='y',
-  #   x0=min(x1), y0=min(y1),
-  #   x1=max(x1), y1=max(y1),
-  #   opacity=0.25,
-  #   line = list(color="#ff0000"),
-  #   fillcolor="#ff0000")
-  # 
-  
-  
-  
-  
-  # output$plot1 <- renderPlotly(plot_ly(type = 'scatter', mode='markers') %>%
-  #                                add_trace(x=x0, y=y0, mode='markers', marker=list(color='#228B22')) %>%
-  #                                add_trace(x=x1, y=y1, mode='markers', marker=list(color='#ff0000')) %>%
-  #                                layout(title = "Visualization Of People's Performance", showlegend = FALSE,
-  #                                       xaxis = list(title = 'Human Performance (s)', margin( l = 100, unit = 'pt')), 
-  #                                       yaxis = list(title = 'Distance (px)'))
-  #                                       
-  #                              
-  # )
+
   
   output$range <- renderPrint({ input$slider2 })
   
-  observeEvent({input$test
-    input$slider2
-    1}, {
+  observeEvent(
+    {input$test
+      input$slider2
+      1
+    }, {
+      if (input$button == "Distance Between targets") {
+        tunneldata <- getData(gametype = "Tunnel", param = "TargetsDistanceInches", slidermin = input$slider2[[1]], slidermax = input$slider2[[2]])
+        fittsdata <- getData(gametype = "Fitts", param = "TargetsDistanceInches", slidermin = input$slider2[[1]], slidermax = input$slider2[[2]])
+        goaldata <- getData(gametype = "Goal", param = "TargetsDistanceInches", slidermin = input$slider2[[1]], slidermax = input$slider2[[2]])
+      } else if (input$button == "Size of Targets") {
+        tunneldata <- getData(gametype = "Tunnel", param = "TargetsSizeInches", slidermin = input$slider2[[1]], slidermax = input$slider2[[2]])
+        fittsdata <- getData(gametype = "Fitts", param = "TargetsSizeInches", slidermin = input$slider2[[1]], slidermax = input$slider2[[2]])
+        goaldata <- getData(gametype = "Goal", param = "TargetsSizeInches", slidermin = input$slider2[[1]], slidermax = input$slider2[[2]])
+      } else {
+        return()
+      }
+      
+      # All GameType display in plotly
       if (input$test == -1)
       {
-        output$plot1 <- renderPlotly(plot_ly(type = 'scatter',mode='markers', 
-                                             data = FetchDatas(conditionLists = list(list(paste("DeltaTime >= ", input$slider2[[1]], sep = "")),
-                                                                                     list(paste("DeltaTime <= ", input$slider2[[2]], sep = ""))), 
-                                                               option = "DeltaTime, TargetsDistanceinches"), 
-                                             x = ~DeltaTime, y = ~TargetsDistanceinches)%>% layout(xaxis = list(title = "Human Performance (s)"), yaxis = list(title = "Distance (px)"))
-                                     
+        output$plot1 <- renderPlotly(
+          plot_ly(type = 'scatter',mode='markers')%>% 
+            add_trace(x=tunneldata[['DeltaTime']], y=tunneldata[['TargetsDistanceInches']], mode='markers', marker=list(color='#0000FF')) %>%
+            add_trace(x=fittsdata[['DeltaTime']], y=fittsdata[['TargetsDistanceInches']], mode='markers', marker=list(color='#228B22')) %>%
+            add_trace(x=goaldata[['DeltaTime']], y=goaldata[['TargetsDistanceInches']], mode='markers', marker=list(color='#ff0000'))%>%
+            layout(xaxis = list(title = "Human Performance (s)"), yaxis = list(title = "Distance (px)"))
         )
         return()
       }
+      
+      # Initialize color and data for simple plotly
+      color = "#F00"
+      simpledata = NULL
+      # Check dropdown value
+      # case "Tunnel"
+      if (input$test == "Tunnel") {
+        color = "#0000FF"
+        simpledata = tunneldata
+      }
+      # case "Goal"
+      else if (input$test == "Goal") {
+        color = "#F00"
+        simpledata = goaldata
+      }
+      # case "Fitts"
+      else if (input$test == "Fitts") {
+        color = "#228B22"
+        simpledata = fittsdata
+      }
+      # default, no value correspond
+      else {
+        return()
+      }
+      
+      
+      
       print(input$slider2[[1]])
-      output$plot1 <- renderPlotly(plot_ly(type = 'scatter', mode='markers',data = FetchDatas(conditionLists = list(list(paste("GameType = '", input$test, "'", sep = "")),
-                                                                                                                    list(paste("DeltaTime >= ", input$slider2[[1]], sep = "")), 
-                                                                                                                    list(paste("DeltaTime <= ", input$slider2[[2]], sep = ""))), 
-                                                                                              option = "DeltaTime, TargetsDistanceinches"), 
-                                           x = ~DeltaTime, y = ~TargetsDistanceinches)%>% layout(xaxis = list(title = "Human Performance (s)"), yaxis = list(title = "Distance (px)")))
-    })
+      # Simple GameType display in plotly
+      output$plot1 <- renderPlotly(
+        plot_ly(type = 'scatter',mode='markers')%>% 
+          add_trace(x=simpledata[['DeltaTime']], y=simpledata[['TargetsDistanceInches']], mode='markers', marker=list(color=color)) %>%
+          layout(xaxis = list(title = "Human Performance (s)"), yaxis = list(title = "Distance (px)"))
+      )
+    }
+  )
   
   
 }

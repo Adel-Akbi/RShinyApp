@@ -1,15 +1,19 @@
 library(plotly)
 function(input, output, session) {
   
-
+  
   
   output$range <- renderPrint({ input$slider2 })
   
   observeEvent(
     {input$test
       input$slider2
+      input$button
       1
     }, {
+      
+      print(input$button)
+      
       if (input$button == "Distance Between targets") {
         tunneldata <- getData(gametype = "Tunnel", param = "TargetsDistanceInches", slidermin = input$slider2[[1]], slidermax = input$slider2[[2]])
         fittsdata <- getData(gametype = "Fitts", param = "TargetsDistanceInches", slidermin = input$slider2[[1]], slidermax = input$slider2[[2]])

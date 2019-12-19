@@ -13,7 +13,7 @@ fluidPage(
     
     radioButtons("button",
                  "Compare Human Performance to..",
-                 c("Distance Between targets", "Size of Targets"))
+                 c("Distance Between Targets", "Size of Targets"))
   ),
   
   

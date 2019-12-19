@@ -14,7 +14,7 @@ function(input, output, session) {
       
       print(input$button)
       
-      if (input$button == "Distance Between targets") {
+      if (input$button == "Distance Between Targets") {
         tunneldata <- getData(gametype = "Tunnel", param = "TargetsDistanceInches", slidermin = input$slider2[[1]], slidermax = input$slider2[[2]])
         fittsdata <- getData(gametype = "Fitts", param = "TargetsDistanceInches", slidermin = input$slider2[[1]], slidermax = input$slider2[[2]])
         goaldata <- getData(gametype = "Goal", param = "TargetsDistanceInches", slidermin = input$slider2[[1]], slidermax = input$slider2[[2]])
